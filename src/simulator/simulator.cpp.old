@@ -1,0 +1,176 @@
+#include "simulator.hpp"
+#include <iomanip>
+const int Simulator::maximum_horse_num(8);
+std::random_device Simulator::seed_gen;
+std::mt19937 Simulator::rand_engine(Simulator::seed_gen());
+
+void Simulator::make_win_rate_table(std::vector<std::vector<double> >& win_rate_table, 
+							const Race& race,
+							const std::list<la::Vec2d>& vec_win_list, 
+							const std::list<la::Vec2d>& vec_lose_list)
+{
+	int i = 0;
+	for(auto a : race.horse_list){
+		std::vector<double> row;
+		for(auto b : race.horse_list){
+			const double band_width(10.0);
+			la::Vec2d x(a.curr_index, b.curr_index);
+			const double ans_win = sta::KerDensityEstimation<la::Vec2d, sta::EpanechnikovKernel<la::Vec2d> >()(band_width, x, vec_win_list);
+			const double ans_lose = sta::KerDensityEstimation<la::Vec2d, sta::EpanechnikovKernel<la::Vec2d> >()(band_width, x, vec_lose_list);
+			const double win_rate = ans_win / (ans_win + ans_lose);
+
+			row.push_back(win_rate); 
+			std::cout << "estimate : " << i + 1 << " in " << race.horse_list.size() * race.horse_list.size() << "pairs" << std::endl;
+			++ i;
+		}
+		win_rate_table.push_back(row);
+	}
+
+	std::cout << win_rate_table.size() << std::endl;
+};
+
+Simulator::Simulator(const unsigned int num) : simulation_num(num) {};
+
+void Simulator::set_simulation_num(const unsigned int num){ simulation_num = num; };
+
+void Simulator::run(std::vector<std::vector<double> > & place_prob, 
+					const Race& race, 
+					const std::vector<std::vector<double> >& win_rate)
+{
+	std::vector<std::vector<int> > place_count(race.horse_list.size(), std::vector<int>(race.horse_list.size(), 0));
+	unsigned int simulation_end = simulation_num;
+	for(unsigned int i = 0; i < simulation_end; ++ i){
+		// compete all combinations
+		std::cout << "compete" << std::endl;
+		std::vector<std::vector<bool> > win_table;
+		compete_all(win_table, win_rate);
+
+		// Count the win
+		std::cout << "count up" << std::endl;
+		std::vector<int> win_num_vector;
+		count_up_win(win_num_vector, win_table);
+
+		// Sort by win_num
+
+		std::cout << "sort" << std::endl;
+		std::vector<int> place;
+		if(check_place(place, win_num_vector)){
+			for(unsigned int j = 0; j < race.horse_list.size(); ++ j){
+				place_count[place[j]][j] = place_count[place[j]][j] + 1;
+			}
+		}
+		else{
+			// if same place made replay simulation
+			++ simulation_end;
+		}
+		std::cout << "simulation no " << i + 1 << " " << simulation_end - i - simulation_num << "in "<< simulation_num << "simulations" << std::endl;
+	}
+
+	// calculate win probability
+	place_prob.resize(race.horse_list.size());
+	for(auto& a: place_prob) a.resize(race.horse_list.size());
+
+	for(unsigned int i = 0; i < race.horse_list.size(); ++ i){
+		for(unsigned int j = 0; j < race.horse_list.size(); ++ j){
+			std::cout << place_count[i][j] << " ";
+			place_prob[i][j] = (double)place_count[i][j] / simulation_num;
+		}
+		std::cout << std::endl;
+	}
+}
+
+void Simulator::make_combination_table(const int n)
+{
+	combination_table.resize(win_rate.size());
+	for(auto& a: combination_table) a.resize(n);
+	
+
+};
+
+unsigned int Simulator::combination(const unsigned int n, const unsigned int r) const
+{
+	unsigned int prod(1);
+	for(unsigned int a = n; a >= r; -- a) prod *= a;
+	return prod
+};
+bool Simulator::compete(const double win_rate) const
+{
+	std::uniform_real_distribution<double> distribution(0.0, 1.0);
+	return win_rate > distribution(rand_engine);
+};
+void Simulator::compete_all(std::vector<std::vector<bool> >& win_table, 
+					const std::vector<std::vector<double> >& win_rate) const
+{
+	win_table.resize(win_rate.size());
+	for(auto& a: win_table) a.resize(win_rate.size());
+
+	for(unsigned int j = 0; j < win_rate.size() - 1; ++ j){
+		for(unsigned int k = j + 1; k < win_rate.size(); ++ k){
+			win_table[j][k] = this->compete(win_rate[j][k]);
+			win_table[k][j] = !win_table[j][k];
+		}
+	}
+};
+
+void Simulator::count_up_win(std::vector<int>& win_num_vector,
+					 const std::vector<std::vector<bool> >& win_table) const
+{
+	for(unsigned int j = 0; j < win_table.size(); ++ j){
+		int win_num = 0;
+		for(unsigned int k = 0; k < win_table.size(); ++ k){
+			if(j != k){
+				if(win_table[j][k]) ++ win_num;
+			}
+		}
+		win_num_vector.push_back(win_num);
+	}
+};
+
+bool Simulator::check_place(std::vector<int>& place,
+			 const std::vector<int>& win_num_vector) const
+{
+	std::vector<bool> check(win_num_vector.size(), false);
+	while(place.size() != win_num_vector.size()){
+		std::cout << "find_max" << std::endl;
+		std::vector<int> top;
+		int max_win_num = 0;
+		// pick up house which have top win rate.
+		for(unsigned int j = 0; j < win_num_vector.size(); ++ j){
+			std::cout << j << " " << check[j] << " " << win_num_vector[j] << "  ";
+			if(!check[j] && (win_num_vector[j] >= max_win_num)){
+				if(win_num_vector[j] == max_win_num){
+					top.push_back(j);
+					return false;
+				}
+				else if(win_num_vector[j] > max_win_num){
+					max_win_num = win_num_vector[j];
+					top.clear();
+					top.push_back(j);
+				}
+			}
+			std::cout << std::endl;
+		}
+
+		// random select from same win horse 
+		std::cout << "a" << std::endl;
+		/*if(top.size() != 1){
+			std::cout << "b1 " << top.size() << std::endl;
+			std::uniform_real_distribution<double> distribution(0.0, 0.99999999999);
+			int win = std::round(distribution(rand_engine) * top.size());
+			std::cout << win << std::endl;
+			place.push_back(top[win]);
+			check[top[win]] = true;
+		}*/
+		//else{
+			std::cout << "b2" << top.front() << std::endl;
+			place.push_back(top.front());
+			check[top.front()] = true;
+		//}
+		
+		std::cout << "c" << std::endl;
+		//if(top.size() > 1) return false;
+
+			//return false;
+	}
+	return true;
+};
