@@ -1,0 +1,2 @@
+/usr/bin/ar cr libModBuyer.a  CMakeFiles/ModBuyer.dir/buyer.cpp.o
+/usr/bin/ranlib libModBuyer.a

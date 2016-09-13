@@ -1,0 +1,1 @@
+/usr/bin/c++      CMakeFiles/uma.dir/uma.cpp.o CMakeFiles/uma.dir/timer/timer.cpp.o  -o uma -rdynamic analyzer/libModAnalyzer.a simulator/libModSimulator.a buyer/libModBuyer.a 
