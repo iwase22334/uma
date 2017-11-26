@@ -37,48 +37,48 @@ using std::abs;
 template<typename Tp, int M, int N> class Matrix;
 // Operations for Matrix
 template<typename Tp, int N> struct DetOperation;
-template<typename Tp, int N> double det(const Matrix<Tp, N, N>&);
-template<typename Tp, int L, int M, int N> void svd(const Matrix<Tp, M, N>&, Matrix<Tp, M, L>&, Matrix<Tp, L, L>&, Matrix<Tp, L, N>&);
-template<typename Tp, int N> Matrix<Tp, N, 1> eigenvalue(const Matrix<Tp, N, N>&);
-template<typename Tp, int N> Matrix<Tp, N, 1> jacobi_method(const Matrix<Tp, N, N>&);
-template<typename Tp, int N> Matrix<Tp, N, 1> eigenvector(const Matrix<Tp, N, N>&, const Tp&);
+// template<typename Tp, int N> double det(const Matrix<Tp, N, N>&);
+// template<typename Tp, int L, int M, int N> void svd(const Matrix<Tp, M, N>&, Matrix<Tp, M, L>&, Matrix<Tp, L, L>&, Matrix<Tp, L, N>&);
+// template<typename Tp, int N> Matrix<Tp, N, 1> eigenvalue(const Matrix<Tp, N, N>&);
+// template<typename Tp, int N> Matrix<Tp, N, 1> jacobi_method(const Matrix<Tp, N, N>&);
+// template<typename Tp, int N> Matrix<Tp, N, 1> eigenvector(const Matrix<Tp, N, N>&, const Tp&);
 template<typename Tp, int N> struct LU_decomposition;
 template<typename Tp, int N> struct JacobiMethod;
 
-template<typename Tp, int M, int N> void swap_row(Matrix<Tp, M, N>&, const int, const int);
-template<typename Tp, int M, int N> int max_index(const Matrix<Tp, M, N>& );
-template<typename Tp, int M, int N> Tp max_value(const Matrix<Tp, M, N>& );
-template<typename Tp, int M, int N> int max_abs_index(const Matrix<Tp, M, N>& );
-template<typename Tp, int M, int N> Tp max_abs_value(const Matrix<Tp, M, N>& );
-template<typename Tp, int M, int N> Matrix<Tp, M, N> operator + (const Matrix<Tp, M, N>&, const Matrix<Tp, M, N>&);
-template<typename Tp, int M, int N> Matrix<Tp, M, N> operator - (const Matrix<Tp, M, N>&, const Matrix<Tp, M, N>&);
-template<typename Tp, int L, int M, int N> Matrix<Tp, M, L> operator * (const Matrix<Tp, M, N>&, const Matrix<Tp, N, L>&);
-template<typename Tp, int M, int N> Matrix<Tp, M, N> operator * (const int, const Matrix<Tp, M, N>&);
-template<typename Tp, int M, int N> Matrix<Tp, M, N> operator * (const Matrix<Tp, M, N>&, const int);	
-template<typename Tp, int M, int N> Matrix<Tp, M, N> operator * (const float, const Matrix<Tp, M, N>&);
-template<typename Tp, int M, int N> Matrix<Tp, M, N> operator * (const Matrix<Tp, M, N>&, const float);
-template<typename Tp, int M, int N> Matrix<Tp, M, N> operator * (const double, const Matrix<Tp, M, N>&);
-template<typename Tp, int M, int N> Matrix<Tp, M, N> operator * (const Matrix<Tp, M, N>&, const double);
-
-template<typename Tp, int M, int N> Matrix<Tp, M, N> operator / (const Matrix<Tp, M, N>&, const int);	
-template<typename Tp, int M, int N> Matrix<Tp, M, N> operator / (const Matrix<Tp, M, N>&, const float);
-template<typename Tp, int M, int N> Matrix<Tp, M, N> operator / (const Matrix<Tp, M, N>&, const double);
-template<typename Tp, int M, int N> ostream& operator << (ostream &, Matrix<Tp, M, N>&);
-
-template<typename Tp, int M, int N> Tp norm(const Matrix<Tp, M, N>&);
+// template<typename Tp, int M, int N> void swap_row(Matrix<Tp, M, N>&, const int, const int);
+// template<typename Tp, int M, int N> int max_index(const Matrix<Tp, M, N>& );
+// template<typename Tp, int M, int N> Tp max_value(const Matrix<Tp, M, N>& );
+// template<typename Tp, int M, int N> int max_abs_index(const Matrix<Tp, M, N>& );
+// template<typename Tp, int M, int N> Tp max_abs_value(const Matrix<Tp, M, N>& );
+// template<typename Tp, int M, int N> Matrix<Tp, M, N> operator + (const Matrix<Tp, M, N>&, const Matrix<Tp, M, N>&);
+// template<typename Tp, int M, int N> Matrix<Tp, M, N> operator - (const Matrix<Tp, M, N>&, const Matrix<Tp, M, N>&);
+// template<typename Tp, int L, int M, int N> Matrix<Tp, M, L> operator * (const Matrix<Tp, M, N>&, const Matrix<Tp, N, L>&);
+// template<typename Tp, int M, int N> Matrix<Tp, M, N> operator * (const int, const Matrix<Tp, M, N>&);
+// template<typename Tp, int M, int N> Matrix<Tp, M, N> operator * (const Matrix<Tp, M, N>&, const int);
+// template<typename Tp, int M, int N> Matrix<Tp, M, N> operator * (const float, const Matrix<Tp, M, N>&);
+// template<typename Tp, int M, int N> Matrix<Tp, M, N> operator * (const Matrix<Tp, M, N>&, const float);
+// template<typename Tp, int M, int N> Matrix<Tp, M, N> operator * (const double, const Matrix<Tp, M, N>&);
+// template<typename Tp, int M, int N> Matrix<Tp, M, N> operator * (const Matrix<Tp, M, N>&, const double);
+//
+// template<typename Tp, int M, int N> Matrix<Tp, M, N> operator / (const Matrix<Tp, M, N>&, const int);
+// template<typename Tp, int M, int N> Matrix<Tp, M, N> operator / (const Matrix<Tp, M, N>&, const float);
+// template<typename Tp, int M, int N> Matrix<Tp, M, N> operator / (const Matrix<Tp, M, N>&, const double);
+// template<typename Tp, int M, int N> ostream& operator << (ostream &, Matrix<Tp, M, N>&);
+//
+// template<typename Tp, int M, int N> Tp norm(const Matrix<Tp, M, N>&);
 
 // Vector
 template<typename Tp, int N> class Vector;
-// Operations for Vector
-template<typename Tp, int N> Tp norm(const Vector<Tp, N>&);
-template<typename Tp, int N> Tp angle(const Vector<Tp, N>&, const Vector<Tp, N>&);
+// // Operations for Vector
+// template<typename Tp, int N> Tp norm(const Vector<Tp, N>&);
+// template<typename Tp, int N> Tp angle(const Vector<Tp, N>&, const Vector<Tp, N>&);
 
 // RoateMatrix
 template<typename Tp> class RotateMatrix;
 // Operations for RotateMatrix
-template<typename Tp> Tp alpha(const RotateMatrix<Tp>&);
-template<typename Tp> Tp beta(const RotateMatrix<Tp>&);
-template<typename Tp> Tp gamma(const RotateMatrix<Tp>&);
+// template<typename Tp> Tp alpha(const RotateMatrix<Tp>&);
+// template<typename Tp> Tp beta(const RotateMatrix<Tp>&);
+// template<typename Tp> Tp gamma(const RotateMatrix<Tp>&);
 
 // Objects to identify operations
 struct AddOperation {};
@@ -109,9 +109,9 @@ protected:
 public:
 	Matrix();
 	Matrix(Tp);
-	Matrix(Tp, Tp); 
-	Matrix(Tp, Tp, Tp); 
-	Matrix(Tp, Tp, Tp, Tp); 
+	Matrix(Tp, Tp);
+	Matrix(Tp, Tp, Tp);
+	Matrix(Tp, Tp, Tp, Tp);
 	Matrix(Tp, Tp, Tp, Tp, Tp);
 	Matrix(Tp, Tp, Tp, Tp, Tp, Tp);
 	Matrix(Tp, Tp, Tp, Tp, Tp, Tp, Tp);
@@ -134,8 +134,8 @@ public:
 	template<int L> Matrix(const Matrix<Tp, M, L>&, const Matrix<Tp, L, N>&, MatMulOperation);
 	// Transposition operation Constructor
 	Matrix(const Matrix<Tp, N, M>&, TransOperation);
-	
-	// Row vector accessor 
+
+	// Row vector accessor
 	Matrix<Tp, 1, N> row(const int) const;
 	// Column vector accessor
 	Matrix<Tp, M, 1> col(const int) const;
@@ -169,16 +169,16 @@ public:
 };
 
 //----------------------------------------------------------
-// Vector class 
+// Vector class
 //----------------------------------------------------------
 template<typename Tp, int N>
 class Vector : public Matrix<Tp, N, 1>{
 public:
 	Vector();
 	Vector(Tp);
-	Vector(Tp, Tp); 
-	Vector(Tp, Tp, Tp); 
-	Vector(Tp, Tp, Tp, Tp); 
+	Vector(Tp, Tp);
+	Vector(Tp, Tp, Tp);
+	Vector(Tp, Tp, Tp, Tp);
 	Vector(Tp, Tp, Tp, Tp, Tp);
 	explicit Vector(const Tp *);
 
@@ -233,7 +233,7 @@ public:
 
 
 //----------------------------------------------------------
-// 
+//
 //----------------------------------------------------------
 #include "matrix.hpp"
 #include "vector.hpp"
@@ -260,7 +260,7 @@ typedef Vector<double, 2> Vec2d;
 typedef Vector<double, 3> Vec3d;
 typedef Vector<double, 4> Vec4d;
 
-typedef RotateMatrix<double> RMatd; 
+typedef RotateMatrix<double> RMatd;
 
 };
 #endif

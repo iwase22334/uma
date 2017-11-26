@@ -7,13 +7,13 @@
 // Horse
 // 		horse infomation
 // Parameters:
-//	int place 			
-//	int final_pace		
-//	int over_all_index	
-//	int curr_index		
+//	int place
+//	int final_pace
+//	int over_all_index
+//	int curr_index
 //	int no				The number int this race
 //	int place			The place in this race
-//	int popularity		
+//	int popularity
 //	double pay_rate		The rate of pay out
 //	std::string name			Horse name
 //	std::string jockey		Jockey name
@@ -30,6 +30,8 @@ struct Horse
 	double pay_rate;
 	std::string name;
 	std::string jockey;
+    Horse(){};
+    Horse(int oai) : over_all_index(oai) {};
 };
 //----------------------------------------------------------
 // Race
@@ -39,8 +41,8 @@ struct Horse
 //	int no					Race number in the day
 //	std::string name				The name of the race
 //	std::string description		Race description
-//	std::string level			
-//	list<Horse> horse_list	
+//	std::string level
+//	list<Horse> horse_list
 //----------------------------------------------------------
 struct Race
 {
@@ -62,7 +64,7 @@ struct TrackInfo
 {
 	std::string date;
 	std::list<Race> race_list;
-}; 
+};
 
 std::ostream& operator<<(std::ostream& os, const Race& r);
 std::ostream& operator<<(std::ostream& os, const Horse& h);

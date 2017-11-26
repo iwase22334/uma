@@ -1,4 +1,0 @@
-/home/iwase/Dropbox/uma/build/analyzer/CMakeFiles/ModAnalyzer.dir
-/home/iwase/Dropbox/uma/build/simulator/CMakeFiles/ModSimulator.dir
-/home/iwase/Dropbox/uma/build/CMakeFiles/print_density_function.dir
-/home/iwase/Dropbox/uma/build/CMakeFiles/uma.dir

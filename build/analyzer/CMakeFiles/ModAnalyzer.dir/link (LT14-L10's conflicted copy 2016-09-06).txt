@@ -1,2 +1,0 @@
-/usr/bin/ar cr libModAnalyzer.a  CMakeFiles/ModAnalyzer.dir/FileReader.cpp.o CMakeFiles/ModAnalyzer.dir/DataStructure.cpp.o CMakeFiles/ModAnalyzer.dir/UmaDataAnalyzer.cpp.o
-/usr/bin/ranlib libModAnalyzer.a

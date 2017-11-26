@@ -1,2 +1,0 @@
-/usr/bin/ar cr libModSimulator.a  CMakeFiles/ModSimulator.dir/simulator.cpp.o
-/usr/bin/ranlib libModSimulator.a

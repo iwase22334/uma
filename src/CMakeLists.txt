@@ -12,8 +12,12 @@ add_executable(uma
 	uma.cpp
 	timer/timer.cpp
 )
+add_executable(uma_interface
+	uma_interface.cpp
+)
 set_target_properties(print_density_function PROPERTIES COMPILE_DEFINITIONS "BUILDTYPE=1")
 set_target_properties(uma PROPERTIES COMPILE_DEFINITIONS "BUILDTYPE=2")
+set_target_properties(uma_interface PROPERTIES COMPILE_DEFINITIONS "BUILDTYPE=3")
 
 add_subdirectory(analyzer)
 add_subdirectory(simulator)
@@ -27,4 +31,7 @@ target_link_libraries(uma
 	ModSimulator
 	ModBuyer
 )
-
+target_link_libraries(uma_interface
+	ModAnalyzer
+	ModSimulator
+)
